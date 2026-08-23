@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Nimbus Support{% endblock %}
+{% block content %}
+<header class="page-head">
+  <h1>Support Overview</h1>
+  <p>Real-time triage performance across all customer conversations.</p>
+</header>
+
+<section class="stat-grid">
+  <div class="stat-card">
+    <div class="stat-top"><span>Total Tickets</span><span class="stat-icon icon-violet">&#9635;</span></div>
+    <div class="stat-value">{{ stats.total }}</div>
+    <div class="stat-sub">all-time volume</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-top"><span>Escalated</span><span class="stat-icon icon-amber">&#9888;</span></div>
+    <div class="stat-value">{{ stats.escalated }}</div>
+    <div class="stat-sub">{{ stats.escalation_rate }}% escalation rate</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-top"><span>Resolved</span><span class="stat-icon icon-teal">&#10003;</span></div>
+    <div class="stat-value">{{ stats.resolved }}</div>
+    <div class="stat-sub">{{ stats.resolution_rate }}% resolution rate</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-top"><span>Avg Confidence</span><span class="stat-icon icon-pink">&#8776;</span></div>
+    <div class="stat-value">{{ stats.avg_confidence }}%</div>
+    <div class="stat-sub">retrieval match score</div>
+  </div>
+</section>
+
+<section class="panel-grid">
+  <div class="panel">
+    <div class="panel-head">
+      <h2>Tickets by Category</h2>
+      <p>Distribution of triaged intents</p>
+    </div>
+    <div class="cat-bars">
+      {% set colors = {'Billing': 'var(--teal)', 'Technical': 'var(--violet)', 'Account Access': 'var(--pink)', 'General': 'var(--muted)'} %}
+      {% for cat in ['Billing', 'Technical', 'Account Access', 'General'] %}
+        {% set count = stats.by_category.get(cat, 0) %}
+        {% set pct = (count / stats.total * 100) if stats.total else 0 %}
+        <div class="cat-row">
+          <span class="cat-label"><span class="cat-dot" style="background:{{ colors[cat] }}"></span>{{ cat }}</span>
+          <div class="cat-bar-track"><div class="cat-bar-fill" style="width:{{ pct }}%; background:{{ colors[cat] }}"></div></div>
+          <span class="cat-count">{{ count }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h2>Recent Tickets</h2>
+      <p>Latest triaged conversations</p>
+    </div>
+    <div class="ticket-mini-list">
+      {% for t in stats.recent %}
+      <a href="{{ url_for('tickets_page') }}" class="ticket-mini">
+        <div>
+          <div class="ticket-mini-title">{{ t.title }}</div>
+          <div class="ticket-mini-msg">{{ t.message[:60] }}</div>
+        </div>
+        <span class="badge badge-{{ t.category|lower|replace(' ', '-') }}">{{ t.category }}</span>
+      </a>
+      {% else %}
+      <div class="empty-note">No tickets yet, try the live chat.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<a href="{{ url_for('chat_page') }}" class="cta-strip">
+  <div>
+    <div class="cta-title">Try the live AI triage</div>
+    <div class="cta-sub">Chat with the Tier-1 assistant and watch classification, RAG answers, and escalation in real time.</div>
+  </div>
+  <span class="cta-arrow">Open Live Chat &#8594;</span>
+</a>
+{% endblock %}

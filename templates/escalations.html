@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Escalations · Nimbus Support{% endblock %}
+{% block content %}
+<header class="page-head">
+  <h1><span class="warn-icon">&#9888;</span> Escalation Queue</h1>
+  <p>Tickets the AI routed to a human, with the stated reason.</p>
+</header>
+
+<div class="ticket-list">
+  {% for t in escalations %}
+  <div class="ticket-row">
+    <div class="ticket-row-main">
+      <div class="ticket-row-top">
+        <span class="badge badge-{{ t.category|lower|replace(' ', '-') }}">{{ t.category }}</span>
+        <span class="low-conf-tag">Low confidence ({{ (t.confidence*100)|round|int }}%)</span>
+      </div>
+      <div class="ticket-row-title">{{ t.title }}</div>
+      <div class="ticket-row-msg">{{ t.message }}</div>
+      <div class="reason-box">
+        <span class="warn-icon-sm">&#9888;</span> {{ t.escalation_reason }}
+      </div>
+      <div class="ticket-row-meta">Priority: {{ t.priority }} · {{ t.status }}</div>
+    </div>
+    {% if t.status != 'resolved' %}
+    <div class="ticket-row-actions">
+      <button class="btn-primary resolve-btn" data-id="{{ t.id }}">Mark resolved</button>
+    </div>
+    {% endif %}
+  </div>
+  {% else %}
+  <div class="empty-note">Nothing escalated right now, the assistant is resolving everything on its own.</div>
+  {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/tickets.js') }}"></script>
+{% endblock %}

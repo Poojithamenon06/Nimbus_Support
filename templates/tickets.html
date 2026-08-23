@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Tickets · Nimbus Support{% endblock %}
+{% block content %}
+<header class="page-head">
+  <h1>Tickets</h1>
+  <p>All conversations triaged by the AI assistant.</p>
+</header>
+
+<div class="ticket-list">
+  {% for t in tickets %}
+  <div class="ticket-row">
+    <div class="ticket-row-main">
+      <div class="ticket-row-top">
+        <span class="ticket-row-title">{{ t.title }}</span>
+        <span class="badge badge-{{ t.category|lower|replace(' ', '-') }}">{{ t.category }}</span>
+        <span class="pill pill-{{ 'high' if t.priority=='High' else 'normal' }}">{{ t.priority }}</span>
+        <span class="pill pill-status">{{ t.status }}</span>
+      </div>
+      <div class="ticket-row-msg">{{ t.message }}</div>
+      <div class="ticket-row-meta">Confidence: {{ (t.confidence * 100) | round | int }}%
+        {% if t.escalated %} · <span class="text-amber">Escalated</span>{% endif %}
+      </div>
+    </div>
+    <div class="ticket-row-actions">
+      <button class="btn-ghost explain-btn" data-id="{{ t.id }}">Why this?</button>
+      {% if t.status != 'resolved' %}
+      <button class="btn-primary resolve-btn" data-id="{{ t.id }}">Resolve</button>
+      {% endif %}
+    </div>
+    <div class="explain-box" id="explain-{{ t.id }}"></div>
+  </div>
+  {% else %}
+  <div class="empty-note">No tickets yet. Head to Live Chat to generate some.</div>
+  {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/tickets.js') }}"></script>
+{% endblock %}

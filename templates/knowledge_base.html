@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Knowledge Base · Nimbus Support{% endblock %}
+{% block content %}
+<header class="page-head kb-head">
+  <div>
+    <h1>Knowledge Base</h1>
+    <p>The AI retrieves answers from these articles (RAG). Keep them accurate and specific.</p>
+  </div>
+  <button class="btn-primary" id="newArticleBtn">+ New Article</button>
+</header>
+
+<div class="kb-form" id="kbForm" style="display:none;">
+  <div class="kb-form-grid">
+    <select id="kbCategory">
+      <option>Billing</option>
+      <option>Technical</option>
+      <option>Account Access</option>
+      <option>General</option>
+    </select>
+    <input type="text" id="kbTitle" placeholder="Article title" />
+  </div>
+  <textarea id="kbContent" rows="3" placeholder="Article content, what the assistant should say"></textarea>
+  <input type="text" id="kbKeywords" placeholder="Keywords, comma separated (optional, helps matching)" />
+  <div class="kb-form-actions">
+    <button class="btn-ghost" id="cancelKbBtn" type="button">Cancel</button>
+    <button class="btn-primary" id="saveKbBtn" type="button">Save Article</button>
+  </div>
+</div>
+
+{% for cat, articles in by_cat.items() %}
+<h3 class="kb-cat-heading">{{ cat }}</h3>
+<div class="kb-grid">
+  {% for a in articles %}
+  <div class="kb-card">
+    <div class="kb-card-top">
+      <span class="badge badge-{{ a.category|lower|replace(' ', '-') }}">{{ a.category }}</span>
+      <button class="kb-delete" data-id="{{ a.id }}">&#128465;</button>
+    </div>
+    <div class="kb-card-title">{{ a.title }}</div>
+    <div class="kb-card-body">{{ a.content[:180] }}{% if a.content|length > 180 %}...{% endif %}</div>
+    {% if a.keywords %}<div class="kb-card-keywords">Keywords: {{ a.keywords }}</div>{% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/kb.js') }}"></script>
+{% endblock %}

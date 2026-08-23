@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Nimbus Support{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">N</div>
+      <div>
+        <div class="brand-name">Nimbus Support</div>
+        <div class="brand-sub">Tier-1 AI Employee</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a href="{{ url_for('dashboard') }}" class="nav-item {{ 'active' if active=='dashboard' }}">
+        <span class="nav-dot"></span>Dashboard
+      </a>
+      <a href="{{ url_for('chat_page') }}" class="nav-item {{ 'active' if active=='chat' }}">
+        <span class="nav-dot"></span>Live Chat
+      </a>
+      <a href="{{ url_for('tickets_page') }}" class="nav-item {{ 'active' if active=='tickets' }}">
+        <span class="nav-dot"></span>Tickets
+      </a>
+      <a href="{{ url_for('escalations_page') }}" class="nav-item {{ 'active' if active=='escalations' }}">
+        <span class="nav-dot"></span>Escalations
+      </a>
+      <a href="{{ url_for('kb_page') }}" class="nav-item {{ 'active' if active=='kb' }}">
+        <span class="nav-dot"></span>Knowledge Base
+      </a>
+    </nav>
+
+    <div class="sidebar-footnote">
+      Retrieval-grounded triage. Low-confidence queries escalate to a human with the reason stated.
+    </div>
+  </aside>
+
+  <main class="content">
+    {% block content %}{% endblock %}
+  </main>
+</div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

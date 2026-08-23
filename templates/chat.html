@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Live Chat · Nimbus Support{% endblock %}
+{% block content %}
+<header class="chat-head">
+  <div class="chat-avatar">&#10022;</div>
+  <div>
+    <div class="chat-title">Tier-1 Support Assistant</div>
+    <div class="chat-status"><span class="dot-online"></span>Online · knowledge base loaded</div>
+  </div>
+</header>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-empty" id="chatEmpty">
+    <div class="chat-empty-icon">&#10022;</div>
+    <div class="chat-empty-title">How can I help you today?</div>
+    <div class="chat-empty-sub">Ask about billing, technical issues, or your account.</div>
+    <div class="suggest-grid">
+      <button class="suggest-chip" data-q="How do I reset my password?">How do I reset my password?</button>
+      <button class="suggest-chip" data-q="I was charged twice this month, I want a refund">I was charged twice this month, I want a refund</button>
+      <button class="suggest-chip" data-q="The app is really slow and keeps freezing">The app is really slow and keeps freezing</button>
+      <button class="suggest-chip" data-q="Can I integrate Nimbus with Slack?">Can I integrate Nimbus with Slack?</button>
+      <button class="suggest-chip" data-q="I already tried troubleshooting and the app still doesn't work">I already tried troubleshooting, still broken</button>
+      <button class="suggest-chip" data-q="How do I change my subscription plan?">How do I change my subscription plan?</button>
+    </div>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+</div>
+
+<form class="chat-input-row" id="chatForm">
+  <input type="text" id="chatInput" placeholder="Type your message..." autocomplete="off" />
+  <button type="submit">Send</button>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}
