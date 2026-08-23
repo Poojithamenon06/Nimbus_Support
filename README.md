@@ -78,3 +78,5 @@ automatically on first run — nothing else to configure.
 - Mock/synthetic data only — no real customer data used.
 - Single-reviewer scope: no authentication layer, since the brief specifies
   mock data and a single evaluator, not multi-tenant production use.
+
+Deployed on Render live URL: https://nimbus-support.onrender.com
