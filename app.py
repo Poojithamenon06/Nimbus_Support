@@ -16,8 +16,6 @@ db.init_db()
 engine = RetrievalEngine()
 
 
-# ---------------------------------------------------------------- PAGES ----
-
 @app.route("/")
 def dashboard():
     stats = db.dashboard_stats()
@@ -50,7 +48,7 @@ def kb_page():
     return render_template("knowledge_base.html", by_cat=by_cat, active="kb")
 
 
-# ------------------------------------------------------------------ API ----
+# API 
 
 @app.route("/api/chat", methods=["POST"])
 def api_chat():
