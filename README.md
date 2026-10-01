@@ -4,8 +4,6 @@ A support triage assistant that classifies incoming questions, answers them
 using retrieval-augmented generation (RAG) over a 28-article knowledge base,
 and escalates to a human whenever it isn't confident, stating the reason.
 
-Built for: Supervity FDE Technical Screening — Problem 3 (Customer Support
-AI Employee, Tier-1 Triage).
 
 ## Tech stack
 
